@@ -13,14 +13,16 @@ class ProjectIndex extends Page {
     static content = {
 
         overviewTab {$('#overview-tab')}
-        plansAndReportsTab {$('#plan-tab')}
+        documentsTab {$('#documents-tab')}
+        meriPlanTab {$('#details-tab')}
+        activitiesTab {$('#plan-tab')}
         sitesTab {$('#site-tab')}
         dashboardTab {$('#dashboard-tab')}
         adminTab {$('#admin-tab')}
 
         projectName { $('h1') }
         overview { module OverviewTab }
-        plansAndReports { module PlansAndReportsTab }
+        plansAndReports(wait:true) { module PlansAndReportsTab }
         sites { module SitesTab }
         dashboard { module DashboardTab }
         admin { module AdminTab }
@@ -49,6 +51,7 @@ class OverviewTab extends Module {
 
 class PlansAndReportsTab extends Module {
 
+    static base = { $('#plan') }
     static content = {
         activities {
 
@@ -61,6 +64,7 @@ class PlansAndReportsTab extends Module {
             }
             activities
         }
+        risksAndThreats { $('#risk-validation')}
     }
 }
 
@@ -108,6 +112,7 @@ class AdminTab extends Module {
         documentsTab { $('#edit-documents-tab') }
 
         documents { module AdminDocumentsTab }
+        projectSettings { module AdminProjectSettingsTab }
 
     }
 }
@@ -127,6 +132,12 @@ class AdminDocumentsTab extends Module {
     }
 
 
+}
+
+class AdminProjectSettingsTab extends Module {
+    static content = {
+
+    }
 }
 
 class DocumentSummary extends Module {

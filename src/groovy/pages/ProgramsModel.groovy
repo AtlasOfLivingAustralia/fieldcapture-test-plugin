@@ -26,6 +26,17 @@ class ProgramsModel extends Page {
         saveButton.click()
     }
 
+    def deleteProgramByName(name) {
+        def program = selectProgramByName(name)
+        program.delete()
+    }
+
+    def selectProgramByName(name) {
+        def program = programs().find { it.name == name}
+        program.select()
+        program
+    }
+
 }
 
 
@@ -41,6 +52,7 @@ class Program extends Module {
         reportingPeriodAlignedToCalendar { $('#reportingPeriodAlignedToCalendar') }
         projectsStartOnContractDates { $('#projectDatesContracted') }
         activities { $('.program-activities').find('input[name=activity]') }
+        optionalProjectContent { $('.optional-project-content li input') }
 
         subprograms { isSelected()? moduleList( SubProgram, $('ul.subprograms li.item')) : [] }
     }
