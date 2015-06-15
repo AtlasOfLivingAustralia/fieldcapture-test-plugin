@@ -34,11 +34,12 @@ grails.project.dependency.resolution = {
 
     dependencies {
 
+        compile "co.freeside:betamax:1.1.2"
         compile "org.gebish:geb-spock:${gebVersion}"
-        compile("org.seleniumhq.selenium:selenium-api:$seleniumVersion")
-        compile("org.seleniumhq.selenium:selenium-support:$seleniumVersion")
-        compile("org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion")
-        compile("org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion")
+        compile "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
+        compile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+        compile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
+        compile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
     }
 
     plugins {
