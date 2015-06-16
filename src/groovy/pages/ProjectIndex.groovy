@@ -14,7 +14,7 @@ class ProjectIndex extends Page {
 
         overviewTab {$('#overview-tab')}
         documentsTab {$('#documents-tab')}
-        meriPlanTab {$('#details-tab')}
+        meriPlanTab(required:false) {$('#details-tab')}
         activitiesTab {$('#plan-tab')}
         sitesTab {$('#site-tab')}
         dashboardTab {$('#dashboard-tab')}
@@ -64,7 +64,7 @@ class PlansAndReportsTab extends Module {
             }
             activities
         }
-        risksAndThreats { $('#risk-validation')}
+        risksAndThreats(required:false) { $('#risk-validation')}
     }
 }
 
