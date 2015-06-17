@@ -159,6 +159,7 @@ class DocumentDialog extends Module {
         type { $('#documentRole') }
         license { $('#documentLicense') }
         publiclyViewable { $('#public') }
+        privacyDeclaration { $('#thirdPartyConsentCheckbox') }
         file { $('#documentFile') }
         mainProjectImage { $('#documentRole') }
         saveButton { $('[data-bind*=save]') }
