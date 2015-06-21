@@ -1,8 +1,8 @@
 package au.org.ala.fieldcapture
 
-import co.freeside.betamax.tape.yaml.OrderedPropertyComparator
-import co.freeside.betamax.tape.yaml.TapePropertyUtils
-import org.yaml.snakeyaml.introspector.Property
+//import co.freeside.betamax.tape.yaml.OrderedPropertyComparator
+//import co.freeside.betamax.tape.yaml.TapePropertyUtils
+//import org.yaml.snakeyaml.introspector.Property
 import geb.Browser
 import geb.spock.GebReportingSpec
 import org.openqa.selenium.Cookie
@@ -18,9 +18,9 @@ class FieldcaptureFunctionalTest extends GebReportingSpec {
 
     static {
         // Workaround for an incompatibility between Betamax and groovy 2.3+
-        TapePropertyUtils.metaClass.sort = {Set<Property> properties, List<String> names ->
-            new LinkedHashSet(properties.sort(true, new OrderedPropertyComparator(names)))
-        }
+//        TapePropertyUtils.metaClass.sort = {Set<Property> properties, List<String> names ->
+//            new LinkedHashSet(properties.sort(true, new OrderedPropertyComparator(names)))
+//        }
     }
 
     @Shared def testConfig
@@ -31,10 +31,31 @@ class FieldcaptureFunctionalTest extends GebReportingSpec {
         testConfig = configSlurper.parse(filePath)
         def props = new Properties()
         if (testConfig.default_config) {
-            new File(testConfig.default_config).withInputStream {
-                props.load(it)
+            def externalConfigFile = new File(testConfig.default_config)
+            if (externalConfigFile.exists()) {
+                externalConfigFile.withInputStream {
+                    props.load(it)
+                }
             }
             testConfig.merge(configSlurper.parse(props))
+            if (System.getenv('PROJECT_EDITOR_USERNAME')) {
+                testConfig.projectEditorUsername = System.getenv('PROJECT_EDITOR_USERNAME')
+            }
+            if (System.getenv('PROJECT_EDITOR_PASSWORD')) {
+                testConfig.projectEditorPassword = System.getenv('PROJECT_EDITOR_PASSWORD')
+            }
+            if (System.getenv('PROJECT_ADMIN_USERNAME')) {
+                testConfig.projectAdminUsername = System.getenv('PROJECT_ADMIN_USERNAME')
+            }
+            if (System.getenv('PROJECT_ADMIN_PASSWORD')) {
+                testConfig.projectAdminPassword = System.getenv('PROJECT_ADMIN_PASSWORD')
+            }
+            if (System.getenv('ALA_ADMIN_USERNAME')) {
+                testConfig.alaAdminUsername = System.getenv('ALA_ADMIN_USERNAME')
+            }
+            if (System.getenv('ALA_ADMIN_PASSWORD')) {
+                testConfig.alaAdminPassword = System.getenv('ALA_ADMIN_PASSWORD')
+            }
         }
 
         checkConfig()
