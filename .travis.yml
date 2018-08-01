@@ -1,26 +1,17 @@
 language: groovy
 jdk:
-- oraclejdk7
+- oraclejdk8
 branches:
-  except:
-  - trunk
+  only:
+  - master
 before_install:
-- rm -rf ~/.gvm
-- curl -s get.gvmtool.net > ~/install_gvm.sh
-- chmod 775 ~/install_gvm.sh
-- ~/install_gvm.sh
-- echo "gvm_auto_answer=true" > ~/.gvm/etc/config
-- source ~/.gvm/bin/gvm-init.sh
-- GRAILS_VERSION=`grep '^app\.grails\.version=' ./application.properties | sed -e
-  's/^app\.grails\.version=//g'`
-- gvm install grails $GRAILS_VERSION || true
-before_script:
-- mkdir -p ~/.grails; wget -q -O ~/.grails/settings.groovy https://raw.githubusercontent.com/AtlasOfLivingAustralia/travis-build-configuration/master/travis_grails_settings_new.groovy
+- wget -q https://raw.githubusercontent.com/AtlasOfLivingAustralia/travis-build-configuration/master/ala_common.sh
+- chmod +x ala_common.sh
+- source ./ala_common.sh
+- ala_travis_grails_setup_env
 
 script: 
-  - MAVEN_REPO="ala-repo-snapshot"; grep 'def version =' ./FieldcaptureTestGrailsPlugin.groovy | grep -q "\-SNAPSHOT"; if [ "$?" = "1" ]; then MAVEN_REPO="ala-repo-release"; fi;
-  - grails clean; grails refresh-dependencies --non-interactive; grails compile --non-interactive
-  - '[ "$TRAVIS_PULL_REQUEST" != "false" ] || grails prod maven-deploy --repository=$MAVEN_REPO --non-interactive'
+- ala_travis_grails_build
 env:
   global:
   - secure: "wTJYsmwt9W+p8VNOuA9VT4mg567PtSrFAVhD+3rJSPRe7fFS+GKU8oALvZgBIT6TeBzoTwNxmdujWUwpheO+Xz/KB6Kp6s3j8w7IK4XM5lxkISJ54mFq2kQ6b9d2twida+mCcKxQ0Rls+Ob8XS6AJco80j5wl6ZYh2BUVW4NEaIrIOEfjUfo6jGgwA+UqVIG1MkvgNQ5/iqKhu6O9+NjbqkKqjM5HmoSLTHUyhuX1xX/MRAOGP8wnJ0DWvIv2MxaqKsWiK0HHqOF1k5AxXEC5qvL4T5uPmBP/YxWZsHuKhM9aCan8ZzbB3mU7zbwkM+1F57koYY67DQRbKgptKIWLMWKIk3AL+WbA59o9cfgjKRNB54oYzJvmqTl+uKeJfY1KmunlHivenaiyrOYVvUvOZr0I0J5UMxTpWd/hxbd1eRMtsN6u58L05hEFt/L7Yt3Fn3caXW/rJVl4KI31T6imcxwICnJ50d4bwfkDHmWQTHLxH9VyLq+U9inRWNVdVsweYXld8MekEhGFx4gbwm537Lz5Dkm3lhTxDcW9A91+oIUUza7D1GSG/kawSl7d/v7UQQPUHChdkZQYy6mB6UAAcfBXl/a24P5N3VwrAJiyjO5MKGwZjjZWNvVecN/cg7/l0fcHAy4AIYnCsPvNWEgtyQoGxXQSrU6L1rW9423r54="
